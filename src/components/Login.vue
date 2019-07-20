@@ -52,25 +52,17 @@ export default {
   methods: {
     submitForm () {
       this.$refs.form.validate(valid => {
-        if (valid) {
-          // 校验成功, 发送ajax
-          axios({
-            method: 'post',
-            url: 'http://localhost:8888/api/private/v1/login',
-            data: this.form
-          }).then(res => {
-            console.log(res.data)
-            const { meta } = res.data
-            if (meta.status === 200) {
-              console.log('登录成功')
-            } else {
-              console.log(meta.msg)
-            }
-          })
-        } else {
-          // 校验失败
-          return false
-        }
+        // 如果校验不通过, 直接返回
+        if (!valid) return
+        // 校验成功, 发送ajax
+        axios.post('http://localhost:8888/api/private/v1/login', this.form).then(res => {
+          const { status, msg } = res.data.meta
+          if (status === 200) {
+            console.log('登录成功')
+          } else {
+            console.log(msg)
+          }
+        })
       })
     },
     resetForm () {
