@@ -11,17 +11,17 @@
       el-input: 文本框
         v-model="form.name" 和传入的form对象的某个属性双向绑定
      -->
-    <el-form ref="form" :model="form" label-width="80px">
+    <el-form ref="form" status-icon :model="form" :rules="rules" label-width="80px">
       <img src="../assets/avatar.jpg" alt="">
-      <el-form-item label="用户名">
-        <el-input v-model="form.username" placeholder="请输入用户名"></el-input>
+      <el-form-item label="用户名" prop="username">
+        <el-input v-model="form.username"  placeholder="请输入用户名"></el-input>
       </el-form-item>
-      <el-form-item label="密码">
+      <el-form-item label="密码" prop="password">
         <el-input v-model="form.password" type="password" placeholder="请输入密码"></el-input>
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" @click="onSubmit">登录</el-button>
-        <el-button>重置</el-button>
+        <el-button type="primary" @click="submitForm">登录</el-button>
+        <el-button @click="resetForm">重置</el-button>
       </el-form-item>
     </el-form>
   </div>
@@ -34,12 +34,33 @@ export default {
       form: {
         username: '',
         password: ''
+      },
+      rules: {
+        username: [
+          { required: true, message: '请输入用户名', trigger: 'blur' },
+          { min: 5, max: 12, message: '用户名长度在 5 到 12 个字符', trigger: 'blur' }
+        ],
+        password: [
+          { required: true, message: '请输入密码', trigger: 'blur' },
+          { min: 5, max: 12, message: '密码长度在 3 到 12 个字符', trigger: 'blur' }
+        ]
       }
     }
   },
   methods: {
-    onSubmit () {
-      console.log('submit!')
+    submitForm () {
+      this.$refs.form.validate(valid => {
+        if (valid) {
+          // 校验成功, 发送ajax
+        } else {
+          // 校验失败
+          return false
+        }
+      })
+    },
+    resetForm () {
+      // 通过 ref 拿到 el-form 组件, 调用重置方法
+      this.$refs.form.resetFields()
     }
   }
 }
