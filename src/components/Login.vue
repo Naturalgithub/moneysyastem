@@ -56,13 +56,17 @@ export default {
         if (!valid) return
         // 校验成功, 发送ajax
         axios.post('http://localhost:8888/api/private/v1/login', this.form).then(res => {
-          const { status, msg } = res.data.meta
+          const { meta: { status, msg }, data } = res.data
           if (status === 200) {
             this.$message({
               type: 'success',
               message: '登录成功',
               duration: 1000
             })
+            // 把token存储起来
+            localStorage.setItem('token', data.token)
+            // 编程式导航
+            this.$router.push({ name: 'index' })
           } else {
             this.$message({
               type: 'error',
