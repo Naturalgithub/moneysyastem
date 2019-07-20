@@ -40,11 +40,11 @@ export default {
       rules: {
         username: [
           { required: true, message: '请输入用户名', trigger: 'change' },
-          { min: 5, max: 12, message: '用户名长度在 5 到 12 个字符', trigger: 'change' }
+          { min: 3, max: 12, message: '用户名长度在 3 到 12 个字符', trigger: 'change' }
         ],
         password: [
           { required: true, message: '请输入密码', trigger: 'change' },
-          { min: 5, max: 12, message: '密码长度在 3 到 12 个字符', trigger: 'change' }
+          { min: 3, max: 10, message: '密码长度在 3 到 10 个字符', trigger: 'change' }
         ]
       }
     }
@@ -58,9 +58,17 @@ export default {
         axios.post('http://localhost:8888/api/private/v1/login', this.form).then(res => {
           const { status, msg } = res.data.meta
           if (status === 200) {
-            console.log('登录成功')
+            this.$message({
+              type: 'success',
+              message: '登录成功',
+              duration: 1000
+            })
           } else {
-            console.log(msg)
+            this.$message({
+              type: 'error',
+              message: msg,
+              duration: 1500
+            })
           }
         })
       })
