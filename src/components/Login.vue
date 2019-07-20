@@ -85,7 +85,7 @@ export default {
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 $bgColor: #2d434c;
 
 .login {
