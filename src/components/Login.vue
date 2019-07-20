@@ -12,6 +12,7 @@
         v-model="form.name" 和传入的form对象的某个属性双向绑定
      -->
     <el-form ref="form" :model="form" label-width="80px">
+      <img src="../assets/avatar.jpg" alt="">
       <el-form-item label="用户名">
         <el-input v-model="form.username" placeholder="请输入用户名"></el-input>
       </el-form-item>
@@ -44,6 +45,38 @@ export default {
 }
 </script>
 
-<style>
+<style lang="scss">
+$bgColor: #2d434c;
 
+.login {
+  width: 100%;
+  height: 100%;
+  list-style: none;
+  background: $bgColor;
+  overflow: hidden;
+
+  .el-form {
+    width: 400px;
+    background-color: #fff;
+    margin: 200px auto;
+    padding: 75px 20px 20px;
+    border-radius: 20px;
+    position: relative;
+    img {
+      width: 120px;
+      height: 120px;
+      position: absolute;
+      left: 50%;
+      top: -70px;
+      transform: translateX(-50%);
+      border-radius: 50%;
+      background-color: #fff;
+      border: 5px solid #fff;
+    }
+
+    .el-button:last-child {
+      margin-left: 80px;
+    }
+  }
+}
 </style>

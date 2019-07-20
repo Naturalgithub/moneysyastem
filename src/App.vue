@@ -18,13 +18,13 @@ export default {
 <style lang="scss">
 // scss 定义变量的方式
 // $bgColor: #2d434c;
-$bgColor: #fff;
 * {
   margin: 0;
   padding: 0;
   list-style: none;
 }
-body {
-  background: $bgColor;
+html, body, #app {
+  width: 100%;
+  height: 100%;
 }
 </style>
