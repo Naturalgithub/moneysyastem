@@ -28,8 +28,6 @@
 </template>
 
 <script>
-// 导入 axios
-import axios from 'axios'
 export default {
   data () {
     return {
@@ -55,8 +53,8 @@ export default {
         // 如果校验不通过, 直接返回
         if (!valid) return
         // 校验成功, 发送ajax
-        axios.post('http://localhost:8888/api/private/v1/login', this.form).then(res => {
-          const { meta: { status, msg }, data } = res.data
+        this.$axios.post('login', this.form).then(res => {
+          const { meta: { status, msg }, data } = res
           if (status === 200) {
             this.$message({
               type: 'success',
