@@ -9,11 +9,54 @@
       </div>
       <div class="logout">
         欢迎, xxx
-        <a href="#">退出</a>
+        <a href="javascript:;" @click="logout">退出</a>
       </div>
     </el-header>
     <el-container>
-      <el-aside width="200px">Aside</el-aside>
+      <el-aside width="200px">
+        <!--
+          el-menu: 菜单组件
+          el-submenu: 子菜单
+          el-menu-item-group
+          el-menu-item 菜单项
+        -->
+        <el-menu
+          default-active="1-1"
+          background-color="#545c64"
+          text-color="#fff"
+          active-text-color="#ffd04b"
+          unique-opened>
+
+          <el-submenu index="1">
+            <!-- 设置子菜单的显示内容, 具名插槽 -->
+            <template v-slot:title>
+              <i class="el-icon-location"></i>
+              <span>用户管理</span>
+            </template>
+            <el-menu-item index="1-1">
+              <i class="el-icon-menu"></i>
+              <span>用户列表</span>
+            </el-menu-item>
+          </el-submenu>
+
+          <el-submenu index="2">
+            <!-- 设置子菜单的显示内容, 具名插槽 -->
+            <template v-slot:title>
+              <i class="el-icon-location"></i>
+              <span>权限管理</span>
+            </template>
+            <el-menu-item index="2-1">
+              <i class="el-icon-menu"></i>
+              <span>角色列表</span>
+            </el-menu-item>
+            <el-menu-item index="2-2">
+              <i class="el-icon-menu"></i>
+              <span>权限列表</span>
+            </el-menu-item>
+          </el-submenu>
+
+        </el-menu>
+      </el-aside>
       <el-main>Main</el-main>
     </el-container>
   </el-container>
@@ -21,7 +64,25 @@
 
 <script>
 export default {
-
+  data () {
+    return {}
+  },
+  methods: {
+    logout () {
+      this.$confirm('亲, 你确认要退出系统吗?', '温馨提示', {
+        confirmButtonText: '确认',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        // 删除 token
+        localStorage.removeItem('token')
+        this.$router.push('/login')
+        this.$message.success('退出成功')
+      }).catch(() => {
+        this.$message('退出已取消')
+      })
+    }
+  }
 }
 </script>
 
@@ -55,6 +116,7 @@ export default {
         font-size: 24px;
         height: 60px;
         line-height: 60px;
+        color: #545c64;
       }
     }
     .logout {
@@ -71,6 +133,9 @@ export default {
 
   .el-aside {
     background-color: #545c64;
+    .el-menu {
+      border: none;
+    }
   }
 
   .el-main {
