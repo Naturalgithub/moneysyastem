@@ -8,7 +8,7 @@
         <h1>电商后台管理系统</h1>
       </div>
       <div class="logout">
-        欢迎, xxx
+        欢迎光临~
         <a href="javascript:;" @click="logout">退出</a>
       </div>
     </el-header>
@@ -21,10 +21,10 @@
           el-menu-item 菜单项
         -->
         <el-menu
-          default-active="1-1"
           background-color="#545c64"
           text-color="#fff"
           active-text-color="#ffd04b"
+          router
           unique-opened>
 
           <el-submenu index="1">
@@ -33,7 +33,7 @@
               <i class="el-icon-location"></i>
               <span>用户管理</span>
             </template>
-            <el-menu-item index="1-1">
+            <el-menu-item index="/users">
               <i class="el-icon-menu"></i>
               <span>用户列表</span>
             </el-menu-item>
@@ -45,11 +45,11 @@
               <i class="el-icon-location"></i>
               <span>权限管理</span>
             </template>
-            <el-menu-item index="2-1">
+            <el-menu-item index="/roles">
               <i class="el-icon-menu"></i>
               <span>角色列表</span>
             </el-menu-item>
-            <el-menu-item index="2-2">
+            <el-menu-item index="/rights">
               <i class="el-icon-menu"></i>
               <span>权限列表</span>
             </el-menu-item>
@@ -57,7 +57,9 @@
 
         </el-menu>
       </el-aside>
-      <el-main>Main</el-main>
+      <el-main>
+        <router-view></router-view>
+      </el-main>
     </el-container>
   </el-container>
 </template>
@@ -95,7 +97,7 @@ export default {
 .index {
   height: 100%;
   .el-header {
-    background-color: #ddd;
+    background-color: #D8D8D8;
     display: flex;
     padding: 0;
 
@@ -132,14 +134,14 @@ export default {
   }
 
   .el-aside {
-    background-color: #545c64;
+    background-color: #545C64;
     .el-menu {
       border: none;
     }
   }
 
   .el-main {
-    background-color: #eaeef1;
+    background-color: #ECF0F1;
   }
 }
 </style>
