@@ -8,7 +8,7 @@
         <h1>电商后台管理系统</h1>
       </div>
       <div class="logout">
-        欢迎, xxx
+        欢迎光临~
         <a href="javascript:;" @click="logout">退出</a>
       </div>
     </el-header>
