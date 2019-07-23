@@ -1,14 +1,24 @@
 <template>
   <div class="users">
     <!-- 面包屑 -->
+    <el-breadcrumb separator-class="el-icon-arrow-right">
+      <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
+      <el-breadcrumb-item>用户管理</el-breadcrumb-item>
+      <el-breadcrumb-item>用户列表</el-breadcrumb-item>
+    </el-breadcrumb>
     <!-- 搜索框 -->
+    <el-input placeholder="请输入搜索关键字" v-model="query" class="input-with-select">
+      <el-button slot="append" icon="el-icon-search" @click="searchUser"></el-button>
+    </el-input>
+    <el-button class="addBtn" type="success" plain>添加用户</el-button>
+
     <!-- 表格组件 -->
     <el-table
       :data="userList"
       border
       style="width: 100%">
       <el-table-column
-        prop="role_name"
+        prop="username"
         label="姓名"
         width="180">
       </el-table-column>
@@ -28,6 +38,7 @@
       <el-table-column label="用户状态">
         <template v-slot:default="scope">
           <el-switch
+            @change="changeState(scope.row)"
             v-model="scope.row.mg_state"
             active-color="#13ce66"
             inactive-color="#ff4949">
@@ -133,11 +144,40 @@ export default {
       }).catch(() => {
         this.$message('取消删除')
       })
+    },
+    // 搜索功能
+    // 搜索功能重置为第一页显示
+    searchUser () {
+      this.pagenum = 1
+      this.getUserList()
+    },
+    changeState (row) {
+      const { id, mg_state: mgState } = row
+      // 进行改变状态的 ajax请求操作
+      this.$axios.put(`users/${id}/state/${mgState}`).then(res => {
+        const { msg, status } = res.meta
+        if (status === 200) {
+          this.$message.success('修改成功')
+        } else {
+          this.$message.error(msg)
+        }
+      })
     }
   }
 }
 </script>
 
-<style>
-
+<style lang="scss" scoped>
+  .el-breadcrumb {
+    height: 40px;
+    line-height: 40px;
+    border-bottom: 1px solid #C5C5C5;
+  }
+  .el-input {
+    width: 300px;
+    margin: 10px 0;
+  }
+  .addBtn {
+    margin: 0 20px;
+  }
 </style>
