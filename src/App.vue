@@ -23,8 +23,18 @@ export default {
   padding: 0;
   list-style: none;
 }
-html, body, #app {
+html, body {
   width: 100%;
   height: 100%;
+}
+#app {
+  width: 100%;
+  height: 100%;
+  .el-breadcrumb {
+    height: 40px;
+    line-height: 40px;
+    border-bottom: 1px solid #C5C5C5;
+    margin-bottom: 10px;
+  }
 }
 </style>

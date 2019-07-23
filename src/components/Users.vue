@@ -309,14 +309,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  .el-breadcrumb {
-    height: 40px;
-    line-height: 40px;
-    border-bottom: 1px solid #C5C5C5;
-  }
   .search {
     width: 300px;
-    margin: 10px 0;
+    margin-bottom: 10px;
   }
   .addBtn {
     margin: 0 20px;
