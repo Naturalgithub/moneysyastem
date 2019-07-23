@@ -97,7 +97,7 @@ export default {
 .index {
   height: 100%;
   .el-header {
-    background-color: #EEEEEE;
+    background-color: #D8D8D8;
     display: flex;
     padding: 0;
 
@@ -141,7 +141,7 @@ export default {
   }
 
   .el-main {
-    background-color: #FFFFFF;
+    background-color: #ECF0F1;
   }
 }
 </style>

@@ -37,43 +37,43 @@ export default {
       },
       rules: {
         username: [
-          { required: true, message: '请输入用户名', trigger: 'change' },
-          { min: 3, max: 12, message: '用户名长度在 3 到 12 个字符', trigger: 'change' }
+          { required: true, message: '请输入用户名', trigger: ['blur', 'change'] },
+          { min: 3, max: 12, message: '用户名长度在 3 到 12 个字符', trigger: ['blur', 'change'] }
         ],
         password: [
-          { required: true, message: '请输入密码', trigger: 'change' },
-          { min: 3, max: 10, message: '密码长度在 3 到 10 个字符', trigger: 'change' }
+          { required: true, message: '请输入密码', trigger: ['blur', 'change'] },
+          { min: 3, max: 12, message: '密码长度在 3 到 12 个字符', trigger: ['blur', 'change'] }
         ]
       }
     }
   },
   methods: {
-    submitForm () {
-      this.$refs.form.validate(valid => {
-        // 如果校验不通过, 直接返回
-        if (!valid) return
+    async submitForm () {
+      try {
+        await this.$refs.form.validate()
         // 校验成功, 发送ajax
-        this.$axios.post('login', this.form).then(res => {
-          const { meta: { status, msg }, data } = res
-          if (status === 200) {
-            this.$message({
-              type: 'success',
-              message: '登录成功',
-              duration: 1000
-            })
-            // 把token存储起来
-            localStorage.setItem('token', data.token)
-            // 编程式导航
-            this.$router.push({ name: 'index' })
-          } else {
-            this.$message({
-              type: 'error',
-              message: msg,
-              duration: 1500
-            })
-          }
-        })
-      })
+        const res = await this.$axios.post('login', this.form)
+        const { meta: { status, msg }, data } = res
+        if (status === 200) {
+          this.$message({
+            type: 'success',
+            message: '登录成功',
+            duration: 1000
+          })
+          // 把token存储起来
+          localStorage.setItem('token', data.token)
+          // 编程式导航
+          this.$router.push({ name: 'index' })
+        } else {
+          this.$message({
+            type: 'error',
+            message: msg,
+            duration: 1500
+          })
+        }
+      } catch (e) {
+        console.log(e)
+      }
     },
     resetForm () {
       // 通过 ref 拿到 el-form 组件, 调用重置方法
