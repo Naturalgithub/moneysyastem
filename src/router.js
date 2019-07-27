@@ -40,7 +40,6 @@ router.beforeEach((to, from, next) => {
   // 所有的导航的跳转都要经过导航守卫
   // 关注to, 如果to表示去登陆, 直接放行
   // 如果to不是去登陆, 去其他组件, 判断是否有token, 有就放行, 没有就去登陆
-  console.log(to)
   const token = localStorage.getItem('token')
   if (to.path === '/login' || token) {
     next()

@@ -2,7 +2,7 @@
   <div class="users">
     <!-- 面包屑 -->
     <el-breadcrumb separator-class="el-icon-arrow-right">
-      <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
+      <el-breadcrumb-item :to="{ path: '/index' }">首页</el-breadcrumb-item>
       <el-breadcrumb-item>用户管理</el-breadcrumb-item>
       <el-breadcrumb-item>用户列表</el-breadcrumb-item>
     </el-breadcrumb>
@@ -50,7 +50,7 @@
         <template v-slot:default="scope">
           <el-button @click="showEditDialog(scope.row)" size="small" plain type="primary" icon="el-icon-edit"></el-button>
           <el-button @click="delUser(scope.row.id)"  size="small" plain type="danger" icon="el-icon-delete"></el-button>
-          <el-button size="small" plain type="success">分配角色</el-button>
+          <el-button size="small" plain type="success" icon="el-icon-check">分配角色</el-button>
         </template>
       </el-table-column>
     </el-table>

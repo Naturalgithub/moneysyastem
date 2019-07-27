@@ -1,0 +1,34 @@
+{
+  "data": [
+    {
+      "id": 101,
+      "authName": "商品管理",
+      "path": "goods",
+      "children": [
+        {
+          "id": 121,
+          "authName": "商品分类",
+          "path": "categories",
+          "children": [
+            { "id": 122, "authName": "添加分类", "path": "categories" },
+            { "id": 123, "authName": "删除分类", "path": "categories" }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 102,
+      "authName": "订单管理",
+      "path": "orders",
+      "children": [
+        {
+          "id": 107,
+          "authName": "订单列表",
+          "path": "orders",
+          "children": [{ "id": 109, "authName": "添加订单", "path": "orders" }]
+        }
+      ]
+    }
+  ],
+  "meta": { "msg": "取消权限成功", "status": 200 }
+}
