@@ -50,7 +50,7 @@
         <template v-slot:default="scope">
           <el-button @click="showEditDialog(scope.row)" size="small" plain type="primary" icon="el-icon-edit"></el-button>
           <el-button @click="delUser(scope.row.id)"  size="small" plain type="danger" icon="el-icon-delete"></el-button>
-          <el-button size="small" plain type="success" icon="el-icon-check">分配角色</el-button>
+          <el-button @click="showAssignDialog(scope.row)" size="small" plain type="success" icon="el-icon-check">分配角色</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -131,6 +131,37 @@
         </span>
       </template>
     </el-dialog>
+
+    <!-- 分配角色对话框 -->
+    <el-dialog
+      title="分配角色"
+      :visible.sync="assignVisible"
+      width="40%">
+
+      <el-form ref="assignForm" :model="assignForm" label-width="100px">
+        <el-form-item label="用户名">
+          <el-tag type="info">{{ assignForm.username }}</el-tag>
+        </el-form-item>
+
+        <el-form-item label="角色列表">
+          <el-select v-model="assignForm.rid" placeholder="请选择角色">
+            <el-option
+              v-for="item in roleList"
+              :key="item.id"
+              :label="item.roleName"
+              :value="item.id">
+            </el-option>
+          </el-select>
+        </el-form-item>
+      </el-form>
+
+      <template v-slot:footer>
+        <span class="dialog-footer">
+          <el-button @click="assignVisible = false">取 消</el-button>
+          <el-button @click="assignRole" type="primary">分 配</el-button>
+        </span>
+      </template>
+    </el-dialog>
   </div>
 </template>
 
@@ -172,12 +203,20 @@ export default {
         ]
       },
       editVisible: false,
+      assignVisible: false,
       editForm: {
         username: '',
         email: '',
         mobile: '',
         id: ''
-      }
+      },
+      // 分配表单的数据
+      assignForm: {
+        id: '',
+        rid: '',
+        username: ''
+      },
+      roleList: []
     }
   },
   created () {
@@ -302,6 +341,42 @@ export default {
         }
       } catch (e) {
         console.log(e)
+      }
+    },
+    // 展示分配角色对话框
+    async showAssignDialog (row) {
+      this.assignVisible = true
+      // 回显数据
+      this.assignForm.id = row.id
+      this.assignForm.username = row.username
+
+      // 根据 id 获取角色 id
+      const resUser = await this.$axios.get(`users/${row.id}`)
+      if (resUser.meta.status === 200) {
+        // 如果 rid 是 -1, 表示没有角色
+        const rid = resUser.data.rid
+        this.assignForm.rid = rid === -1 ? '' : rid
+      }
+
+      // 发送 ajax 请求, 获取角色的列表信息
+      const { meta, data } = await this.$axios.get('roles')
+      if (meta.status === 200) {
+        this.roleList = data
+      }
+    },
+    // 分配角色按钮点击
+    async assignRole () {
+      const { id, rid } = this.assignForm
+      // 表单校验, 角色不能为空
+      if (!rid) return this.$message.error('请选择角色')
+      const res = await this.$axios.put(`users/${id}/role`, { rid })
+      const { msg, status } = res.meta
+      if (status === 200) {
+        this.$message.success(msg)
+        this.assignVisible = false
+        this.getUserList()
+      } else {
+        this.$message.error(msg)
       }
     }
   }

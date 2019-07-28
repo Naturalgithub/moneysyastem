@@ -2,7 +2,7 @@
   <el-container class="index">
     <el-header>
       <div class="logo">
-        <img src="../assets/logo.png" alt="">
+        <img src="../assets/logo.png" alt />
       </div>
       <div class="title">
         <h1>电商后台管理系统</h1>
@@ -25,33 +25,19 @@
           text-color="#fff"
           active-text-color="#ffd04b"
           router
-          unique-opened>
-
-          <el-submenu index="1">
+          unique-opened
+          :default-active="defaultIndex"
+        >
+          <el-submenu v-for="menu in menuList" :key="menu.id" :index="menu.path">
             <!-- 设置子菜单的显示内容, 具名插槽 -->
             <template v-slot:title>
               <i class="el-icon-location"></i>
-              <span>用户管理</span>
+              <span>{{ menu.authName }}</span>
             </template>
-            <el-menu-item index="/users">
-              <i class="el-icon-menu"></i>
-              <span>用户列表</span>
-            </el-menu-item>
-          </el-submenu>
 
-          <el-submenu index="2">
-            <!-- 设置子菜单的显示内容, 具名插槽 -->
-            <template v-slot:title>
-              <i class="el-icon-location"></i>
-              <span>权限管理</span>
-            </template>
-            <el-menu-item index="/roles">
+            <el-menu-item v-for="item in menu.children" :key="item.id" :index="item.path">
               <i class="el-icon-menu"></i>
-              <span>角色列表</span>
-            </el-menu-item>
-            <el-menu-item index="/rights">
-              <i class="el-icon-menu"></i>
-              <span>权限列表</span>
+              <span>{{ item.authName }}</span>
             </el-menu-item>
           </el-submenu>
 
@@ -67,7 +53,21 @@
 <script>
 export default {
   data () {
-    return {}
+    return {
+      menuList: []
+    }
+  },
+  computed: {
+    defaultIndex () {
+      return this.$route.path.slice(1)
+    }
+  },
+  async created () {
+    const { meta, data } = await this.$axios.get('menus')
+    if (meta.status === 200) {
+      this.menuList = data
+      console.log(this.menuList)
+    }
   },
   methods: {
     logout () {
@@ -75,14 +75,16 @@ export default {
         confirmButtonText: '确认',
         cancelButtonText: '取消',
         type: 'warning'
-      }).then(() => {
-        // 删除 token
-        localStorage.removeItem('token')
-        this.$router.push('/login')
-        this.$message.success('退出成功')
-      }).catch(() => {
-        this.$message('退出已取消')
       })
+        .then(() => {
+          // 删除 token
+          localStorage.removeItem('token')
+          this.$router.push('/login')
+          this.$message.success('退出成功')
+        })
+        .catch(() => {
+          this.$message('退出已取消')
+        })
     }
   }
 }
@@ -97,7 +99,7 @@ export default {
 .index {
   height: 100%;
   .el-header {
-    background-color: #D8D8D8;
+    background-color: #d8d8d8;
     display: flex;
     padding: 0;
 
@@ -134,14 +136,14 @@ export default {
   }
 
   .el-aside {
-    background-color: #545C64;
+    background-color: #545c64;
     .el-menu {
       border: none;
     }
   }
 
   .el-main {
-    background-color: #ECF0F1;
+    background-color: #ecf0f1;
   }
 }
 </style>
