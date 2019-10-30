@@ -9,12 +9,17 @@
   },
   "dependencies": {
     "axios": "^0.19.0",
+    "bootstrap-table": "^1.15.5",
     "core-js": "^2.6.5",
     "element-ui": "^2.10.1",
+    "file-saver": "^2.0.2",
+    "jquery": "^3.4.1",
     "moment": "^2.24.0",
+    "npm": "^6.12.0",
     "vue": "^2.6.10",
     "vue-quill-editor": "^3.0.6",
-    "vue-router": "^3.0.3"
+    "vue-router": "^3.0.3",
+    "xlsx": "^0.15.1"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^3.9.0",

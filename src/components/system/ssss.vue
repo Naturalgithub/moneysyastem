@@ -3,37 +3,22 @@
     <!-- 面包屑 -->
     <el-breadcrumb separator-class="el-icon-arrow-right">
       <el-breadcrumb-item :to="{ path: '/index' }">首页</el-breadcrumb-item>
-      <el-breadcrumb-item>用户管理</el-breadcrumb-item>
-      <el-breadcrumb-item>用户列表</el-breadcrumb-item>
+      <el-breadcrumb-item>系统设置</el-breadcrumb-item>
+      <el-breadcrumb-item>货币管理</el-breadcrumb-item>
     </el-breadcrumb>
     <!-- 搜索框 -->
     <el-input placeholder="请输入搜索关键字" v-model="query" class="input-with-select search">
       <el-button slot="append" icon="el-icon-search" @click="searchUser"></el-button>
     </el-input>
-    <el-button @click="showAddDialog" class="addBtn" type="success" plain>添加用户</el-button>
+    <el-button @click="showAddDialog" class="addBtn" type="success" plain>货币添加</el-button>
 
     <!-- 表格组件 -->
-    <el-table
-      :data="userList"
-      border
-      style="width: 100%">
-      <el-table-column
-        prop="username"
-        label="姓名"
-        width="180">
-      </el-table-column>
+    <el-table :data="userList" border style="width: 100%">
+      <el-table-column prop="username" label="姓名" width="180"></el-table-column>
 
-      <el-table-column
-        prop="email"
-        label="邮箱"
-        width="180">
-      </el-table-column>
+      <el-table-column prop="email" label="邮箱" width="180"></el-table-column>
 
-      <el-table-column
-        prop="mobile"
-        label="电话"
-        width="180">
-      </el-table-column>
+      <el-table-column prop="mobile" label="电话" width="180"></el-table-column>
 
       <el-table-column label="用户状态">
         <template v-slot:default="scope">
@@ -41,16 +26,34 @@
             @change="changeState(scope.row)"
             v-model="scope.row.mg_state"
             active-color="#13ce66"
-            inactive-color="#ff4949">
-          </el-switch>
+            inactive-color="#ff4949"
+          ></el-switch>
         </template>
       </el-table-column>
 
       <el-table-column label="操作">
         <template v-slot:default="scope">
-          <el-button @click="showEditDialog(scope.row)" size="small" plain type="primary" icon="el-icon-edit"></el-button>
-          <el-button @click="delUser(scope.row.id)"  size="small" plain type="danger" icon="el-icon-delete"></el-button>
-          <el-button @click="showAssignDialog(scope.row)" size="small" plain type="success" icon="el-icon-check">分配角色</el-button>
+          <el-button
+            @click="showEditDialog(scope.row)"
+            size="small"
+            plain
+            type="primary"
+            icon="el-icon-edit"
+          ></el-button>
+          <el-button
+            @click="delUser(scope.row.id)"
+            size="small"
+            plain
+            type="danger"
+            icon="el-icon-delete"
+          ></el-button>
+          <el-button
+            @click="showAssignDialog(scope.row)"
+            size="small"
+            plain
+            type="success"
+            icon="el-icon-check"
+          >分配角色</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -62,7 +65,7 @@
       page-size: 每页的条数
       total: 总条数
       page-sizes
-     -->
+    -->
     <el-pagination
       background
       @size-change="handleSizeChange"
@@ -71,14 +74,10 @@
       :page-size="pagesize"
       :total="total"
       :page-sizes="[2, 4, 6, 8]"
-      layout="total, sizes, prev, pager, next, jumper">
-    </el-pagination>
+      layout="total, sizes, prev, pager, next, jumper"
+    ></el-pagination>
 
-    <el-dialog
-      title="添加用户"
-      :visible.sync="dialogVisible"
-      width="40%">
-
+    <el-dialog title="添加用户" :visible.sync="dialogVisible" width="40%">
       <el-form ref="form" :model="form" :rules="rules" status-icon label-width="100px">
         <el-form-item label="用户名" prop="username">
           <el-input placeholder="请输入用户名" v-model="form.username"></el-input>
@@ -105,11 +104,7 @@
       </template>
     </el-dialog>
 
-    <el-dialog
-      title="修改用户"
-      :visible.sync="editVisible"
-      width="40%">
-
+    <el-dialog title="修改用户" :visible.sync="editVisible" width="40%">
       <el-form ref="editForm" :model="editForm" :rules="rules" status-icon label-width="100px">
         <el-form-item label="用户名">
           <el-tag type="info">{{ editForm.username }}</el-tag>
@@ -133,11 +128,7 @@
     </el-dialog>
 
     <!-- 分配角色对话框 -->
-    <el-dialog
-      title="分配角色"
-      :visible.sync="assignVisible"
-      width="40%">
-
+    <el-dialog title="分配角色" :visible.sync="assignVisible" width="40%">
       <el-form ref="assignForm" :model="assignForm" label-width="100px">
         <el-form-item label="用户名">
           <el-tag type="info">{{ assignForm.username }}</el-tag>
@@ -149,8 +140,8 @@
               v-for="item in roleList"
               :key="item.id"
               :label="item.roleName"
-              :value="item.id">
-            </el-option>
+              :value="item.id"
+            ></el-option>
           </el-select>
         </el-form-item>
       </el-form>
@@ -188,18 +179,44 @@ export default {
       // 表单校验规则
       rules: {
         username: [
-          { required: true, message: '请输入用户名', trigger: ['blur', 'change'] },
-          { min: 3, max: 12, message: '用户名长度在 3 到 12 个字符', trigger: ['blur', 'change'] }
+          {
+            required: true,
+            message: '请输入用户名',
+            trigger: ['blur', 'change']
+          },
+          {
+            min: 3,
+            max: 12,
+            message: '用户名长度在 3 到 12 个字符',
+            trigger: ['blur', 'change']
+          }
         ],
         password: [
-          { required: true, message: '请输入密码', trigger: ['blur', 'change'] },
-          { min: 3, max: 12, message: '密码长度在 3 到 12 个字符', trigger: ['blur', 'change'] }
+          {
+            required: true,
+            message: '请输入密码',
+            trigger: ['blur', 'change']
+          },
+          {
+            min: 3,
+            max: 12,
+            message: '密码长度在 3 到 12 个字符',
+            trigger: ['blur', 'change']
+          }
         ],
         email: [
-          { type: 'email', message: '请输入正确的邮箱地址', trigger: ['blur', 'change'] }
+          {
+            type: 'email',
+            message: '请输入正确的邮箱地址',
+            trigger: ['blur', 'change']
+          }
         ],
         mobile: [
-          { pattern: /^1[3-9]\d{9}$/, message: '请输入正确的手机号', trigger: ['blur', 'change'] }
+          {
+            pattern: /^1[3-9]\d{9}$/,
+            message: '请输入正确的手机号',
+            trigger: ['blur', 'change']
+          }
         ]
       },
       editVisible: false,
@@ -384,14 +401,14 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  .search {
-    width: 300px;
-    margin-bottom: 10px;
-  }
-  .addBtn {
-    margin: 0 20px;
-  }
-  .el-pagination {
-    margin-top: 10px;
-  }
+.search {
+  width: 300px;
+  margin-bottom: 10px;
+}
+.addBtn {
+  margin: 0 20px;
+}
+.el-pagination {
+  margin-top: 10px;
+}
 </style>

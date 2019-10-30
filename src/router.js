@@ -1,13 +1,28 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Login from './components/Login.vue'
 import Index from './components/Index.vue'
-import Users from './components/users/Users.vue'
-import Roles from './components/rights/Roles.vue'
-import Rights from './components/rights/Rights.vue'
-import Categories from './components/products/Categories.vue'
-import Goods from './components/products/Goods.vue'
-import GoodsAdd from './components/products/GoodsAdd.vue'
+
+import Login from './components/Login.vue'
+import MoneyManagement from './components/system/MoneyManagement.vue'
+import CustomerManagement from './components/system/CustomerManagement.vue'
+import AccountingItem from './components/system/AccountingItem.vue'
+import BankManagement from './components/system/BankManagement.vue'
+import CompanyInfo from './components/system/CompanyInfo.vue'
+import ItemInfo from './components/system/ItemInfo.vue'
+import ItemLine from './components/system/ItemLine.vue'
+import PayPal from './components/system/PayPal.vue'
+import DepartmentInfo from './components/system/DepartmentInfo.vue'
+
+import Useradd from './components/rights/Useradd.vue'
+// 收支系统
+import InOutManagement from './components/moneysystem/InOutManagement.vue'
+import InOutQuery from './components/moneysystem/InOutQuery.vue'
+import InOutWrite from './components/moneysystem/InOutWrite.vue'
+import InOutAddWrite from './components/moneysystem/InOutAddWrite.vue'
+import PLine from './components/moneysystem/PLine.vue'
+// 审批列表
+import ApplicationList from './components/allow/ApplicationList.vue'
+import ToDoList from './components/allow/ToDoList.vue'
 
 Vue.use(Router)
 
@@ -27,27 +42,36 @@ const router = new Router({
       name: 'index',
       component: Index,
       children: [
-        { path: '/users', name: 'users', component: Users },
-        { path: '/roles', name: 'roles', component: Roles },
-        { path: '/rights', name: 'rights', component: Rights },
-        { path: '/categories', name: 'categories', component: Categories },
-        { path: '/goods', name: 'goods', component: Goods },
-        { path: '/goods-add', name: 'goods-add', component: GoodsAdd }
+        { path: '/MoneyManagement', name: 'moneymanagement', component: MoneyManagement },
+        { path: '/CustomerManagement', name: 'customermanagement', component: CustomerManagement },
+        { path: '/AccountingItem', name: 'accountingitem', component: AccountingItem },
+        { path: '/BankManagement', name: 'bankmanagement', component: BankManagement },
+        { path: '/CompanyInfo', name: 'companyinfo', component: CompanyInfo },
+        { path: '/ItemInfo', name: 'itemInfo', component: ItemInfo },
+        { path: '/ItemLine ', name: 'itemline ', component: ItemLine },
+        { path: '/PayPal', name: 'paypal', component: PayPal },
+        { path: '/DepartmentInfo', name: 'departmentinfo', component: DepartmentInfo },
+        // right
+        { path: '/Useradd', name: 'useradd', component: Useradd },
+        // moneysystem
+        { path: '/InOutManagement', name: 'InOutManagement', component: InOutManagement },
+        { path: '/InOutQuery', name: 'InOutQuery', component: InOutQuery },
+        { path: '/InOutWrite', name: 'InOutWrite', component: InOutWrite },
+        { path: '/InOutAddWrite', name: 'InOutAddWrite', component: InOutAddWrite },
+        { path: '/PLine', name: 'PLine', component: PLine },
+        { path: '/ApplicationList', name: 'ApplicationList', component: ApplicationList },
+        { path: '/ToDoList', name: 'ToDoList', component: ToDoList }
       ]
     }
   ]
 })
-
-// 给路由对象注册导航守卫, 守卫导航
-// to: 到哪去
-// from: 从哪来
-// next()  next() 放行,  next('/login')
 router.beforeEach((to, from, next) => {
   // 所有的导航的跳转都要经过导航守卫
   // 关注to, 如果to表示去登陆, 直接放行
   // 如果to不是去登陆, 去其他组件, 判断是否有token, 有就放行, 没有就去登陆
-  const token = localStorage.getItem('token')
-  if (to.path === '/login' || token) {
+  const aa = localStorage.getItem('data')
+  if (to.path === '/login' || aa) {
+    console.log(22)
     next()
   } else {
     next('/login')
